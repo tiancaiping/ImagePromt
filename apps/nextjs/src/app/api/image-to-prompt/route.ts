@@ -86,5 +86,10 @@ export async function POST(req: Request) {
     workflowJson?.data?.result ??
     workflowJson?.data?.outputs ??
     null;
-  return NextResponse.json({ output, raw: workflowJson });
+  return NextResponse.json({
+    output,
+    fileId,
+    fileUrl,
+    raw: workflowJson,
+  });
 }
