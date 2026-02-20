@@ -134,6 +134,29 @@ export async function POST(req: Request) {
     }
     return null;
   };
+  const findFirstString = (value: unknown, depth = 0): string | null => {
+    if (depth > 6) return null;
+    if (typeof value === "string") return value;
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        const found = findFirstString(item, depth + 1);
+        if (found) return found;
+      }
+      return null;
+    }
+    if (value && typeof value === "object") {
+      const record = value as Record<string, unknown>;
+      const priorityKeys = ["output", "text", "content", "value", "prompt", "result"];
+      for (const key of priorityKeys) {
+        if (typeof record[key] === "string") return record[key] as string;
+      }
+      for (const key of Object.keys(record)) {
+        const found = findFirstString(record[key], depth + 1);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
   const parsedOutput = parseJsonIfString(rawOutput);
   const fallbackParsed = parseJsonIfString(workflowJson);
   const stringOutput = typeof rawOutput === "string" ? rawOutput : null;
@@ -155,7 +178,9 @@ export async function POST(req: Request) {
     parsedObjectOutput ??
     arrayOutput ??
     objectOutput ??
-    fallbackOutput;
+    fallbackOutput ??
+    findFirstString(rawOutput) ??
+    findFirstString(workflowJson);
   return NextResponse.json({
     output,
     fileId,

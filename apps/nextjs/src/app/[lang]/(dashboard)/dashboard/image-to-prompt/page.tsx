@@ -63,17 +63,23 @@ export default function ImageToPromptPage() {
         output?: unknown;
         fileId?: string;
         fileUrl?: string;
+        raw?: unknown;
       };
       if (!response.ok) {
         setError(data?.error ?? "请求失败");
         return;
       }
       const output = data?.output;
+      const raw = data?.raw ?? data;
       setFileId(typeof data?.fileId === "string" ? data.fileId : "");
       setFileUrl(typeof data?.fileUrl === "string" ? data.fileUrl : "");
-      setResult(
-        typeof output === "string" ? output : JSON.stringify(output, null, 2),
-      );
+      const nextResult =
+        typeof output === "string"
+          ? output
+          : output
+            ? JSON.stringify(output, null, 2)
+            : JSON.stringify(raw, null, 2);
+      setResult(nextResult === "null" ? "无可用输出" : nextResult);
     } catch (err) {
       setError(err instanceof Error ? err.message : "请求失败");
     } finally {
