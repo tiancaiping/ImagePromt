@@ -21,6 +21,10 @@ export default function ImageToPromptPage() {
   const [fileId, setFileId] = React.useState("");
   const [fileUrl, setFileUrl] = React.useState("");
   const [previewUrl, setPreviewUrl] = React.useState("");
+  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
+    className?: string;
+  }>>;
+  const SpinnerIcon = IconsTyped.Spinner;
 
   React.useEffect(() => {
     if (!file) {
@@ -54,7 +58,12 @@ export default function ImageToPromptPage() {
         method: "POST",
         body,
       });
-      const data = await response.json();
+      const data = (await response.json()) as {
+        error?: string;
+        output?: unknown;
+        fileId?: string;
+        fileUrl?: string;
+      };
       if (!response.ok) {
         setError(data?.error ?? "请求失败");
         return;
@@ -91,7 +100,7 @@ export default function ImageToPromptPage() {
                   id="image-file"
                   type="file"
                   accept="image/*"
-                  onChange={(event) =>
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFile(event.target.files?.[0] ?? null)
                   }
                 />
@@ -111,7 +120,9 @@ export default function ImageToPromptPage() {
                   id="user-query"
                   placeholder="请输入你的需求或描述"
                   value={userQuery}
-                  onChange={(event) => setUserQuery(event.target.value)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setUserQuery(event.target.value)
+                  }
                 />
               </div>
               <div className="grid gap-2">
@@ -120,12 +131,14 @@ export default function ImageToPromptPage() {
                   id="prompt-type"
                   placeholder="例如: 写实 / 卡通 / 赛博朋克"
                   value={promptType}
-                  onChange={(event) => setPromptType(event.target.value)}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setPromptType(event.target.value)
+                  }
                 />
               </div>
               <Button type="submit" disabled={!file || isLoading}>
                 {isLoading && (
-                  <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                  <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 生成提示词
               </Button>

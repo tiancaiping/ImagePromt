@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 "use client";
 
 import * as React from "react";
@@ -27,9 +25,31 @@ export function K8sCreateButton({
 }: K8sCreateButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: ButtonProps["variant"];
+  }) => string;
+  const toastTyped = toast as unknown as (props: {
+    title?: string;
+    description?: string;
+    variant?: string;
+  }) => void;
+  const trpcClient = trpc as unknown as {
+    k8s: {
+      createCluster: {
+        mutate: (input: {
+          name: string;
+          location: string;
+        }) => Promise<{ success?: boolean; id?: string }>;
+      };
+    };
+  };
+  const dictTyped = dict as { k8s?: { new_cluster?: string } };
+  const variantTyped = typeof variant === "string" ? variant : undefined;
+  const buttonClassName = buttonVariantsTyped({ variant: variantTyped });
 
   async function onClick() {
-    const res = await trpc.k8s.createCluster.mutate({
+    const res = await trpcClient.k8s.createCluster.mutate({
       name: "Default Cluster",
       location: "Hong Kong",
     });
@@ -43,7 +63,7 @@ export function K8sCreateButton({
       //     variant: "destructive",
       //   });
       // }
-      return toast({
+      return toastTyped({
         title: "Something went wrong.",
         description: "Your cluster was not created. Please try again.",
         variant: "destructive",
@@ -66,8 +86,8 @@ export function K8sCreateButton({
   return (
     <button
       onClick={onClick}
-      className={cn(
-        buttonVariants({ variant }),
+      className={cnTyped(
+        buttonClassName,
         {
           "cursor-not-allowed opacity-60": isLoading,
         },
@@ -81,7 +101,7 @@ export function K8sCreateButton({
       ) : (
         <Icons.Add className="mr-2 h-4 w-4" />
       )}
-      {dict.k8s?.new_cluster}
+      {dictTyped.k8s?.new_cluster}
     </button>
   );
 }

@@ -11,9 +11,10 @@ export function DocsPageHeader({
   className,
   ...props
 }: DocsPageHeaderProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <>
-      <div className={cn("space-y-4", className)} {...props}>
+      <div className={cnTyped("space-y-4", className)} {...props}>
         <h1 className="font-heading inline-block text-4xl lg:text-5xl">
           {heading}
         </h1>

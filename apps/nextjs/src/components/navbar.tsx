@@ -43,6 +43,7 @@ export function NavBar({
   const scrolled = useScroll(50);
   const signInModal = useSigninModal();
   const segment = useSelectedLayoutSegment();
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
 
   return (
     <header
@@ -62,7 +63,7 @@ export function NavBar({
                 <Link
                   key={index}
                   href={item.disabled ? "#" : (item.href.startsWith("http") ? item.href : `/${lang}${item.href}`)}
-                  className={cn(
+                  className={cnTyped(
                     "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
                     item.href.startsWith(`/${segment}`)
                       ? "text-blue-500 font-semibold"

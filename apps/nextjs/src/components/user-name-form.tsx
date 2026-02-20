@@ -4,7 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@saasfly/auth";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver, type UseFormProps, type UseFormReturn } from "react-hook-form";
+import type { ZodTypeAny } from "zod";
 import type * as z from "zod";
 
 import { cn } from "@saasfly/ui";
@@ -35,12 +36,36 @@ type UpdateUserNameOutput = RouterOutputs["customer"]["updateUserName"];
 
 export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   const router = useRouter();
+  const useFormTyped = useForm as unknown as <T>(
+    props: UseFormProps<T>,
+  ) => UseFormReturn<T>;
+  const zodResolverTyped = zodResolver as unknown as <
+    TSchema extends ZodTypeAny,
+  >(
+    schema: TSchema,
+  ) => Resolver<z.infer<TSchema>>;
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: string;
+  }) => string;
+  const toastTyped = toast as unknown as (props: {
+    title?: string;
+    description?: string;
+    variant?: string;
+  }) => void;
+  const trpcClient = trpc as unknown as {
+    customer: {
+      updateUserName: {
+        mutate: (input: UpdateUserNameInput) => Promise<UpdateUserNameOutput>;
+      };
+    };
+  };
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(userNameSchema),
+  } = useFormTyped<FormData>({
+    resolver: zodResolverTyped(userNameSchema),
     defaultValues: {
       name: user?.name ?? "",
     },
@@ -50,9 +75,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   async function onSubmit(data: FormData) {
     setIsSaving(true);
 
-    const updateUserName = trpc.customer.updateUserName.mutate as (
-      input: UpdateUserNameInput,
-    ) => Promise<UpdateUserNameOutput>;
+    const updateUserName = trpcClient.customer.updateUserName.mutate;
     const response = await updateUserName({
       name: data.name,
       userId: user.id,
@@ -60,14 +83,14 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
     setIsSaving(false);
 
     if (!response?.success) {
-      return toast({
+      return toastTyped({
         title: "Something went wrong.",
         description: "Your name was not updated. Please try again.",
         variant: "destructive",
       });
     }
 
-    toast({
+    toastTyped({
       description: "Your name has been updated.",
     });
 
@@ -76,7 +99,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
 
   return (
     <form
-      className={cn(className)}
+      className={cnTyped(className)}
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
@@ -107,7 +130,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
         <CardFooter>
           <button
             type="submit"
-            className={cn(buttonVariants(), className)}
+            className={cnTyped(buttonVariantsTyped(), className)}
             disabled={isSaving}
           >
             {isSaving && (

@@ -1,14 +1,13 @@
-type UserId = string;
-type SessionUser = {
-  id: UserId;
+interface SessionUser {
+  id: string;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-};
+}
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id: UserId;
+    id: string;
     isAdmin?: boolean;
   }
 }

@@ -13,16 +13,21 @@ export interface DocsSidebarNavProps {
 
 export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
   const pathname = usePathname();
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
 
   return items.length ? (
     <div className="w-full">
       {items.map((item) => (
-        <div key={item.href + item.title} className={cn("pb-8")}>
+        <div key={item.href + item.title} className={cnTyped("pb-8")}>
           <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-medium">
             {item.title}
           </h4>
           {item.items ? (
-            <DocsSidebarNavItems items={item.items} pathname={pathname} />
+            <DocsSidebarNavItems
+              items={item.items}
+              pathname={pathname}
+              cnTyped={cnTyped}
+            />
           ) : null}
         </div>
       ))}
@@ -33,11 +38,13 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
 interface DocsSidebarNavItemsProps {
   items: SidebarNavItem[];
   pathname: string | null;
+  cnTyped: (...inputs: unknown[]) => string;
 }
 
 export function DocsSidebarNavItems({
   items,
   pathname,
+  cnTyped,
 }: DocsSidebarNavItemsProps) {
   return items?.length ? (
     <div className="grid grid-flow-row auto-rows-max text-sm">
@@ -46,7 +53,7 @@ export function DocsSidebarNavItems({
           <Link
             key={item.title + item.href}
             href={item.href}
-            className={cn(
+            className={cnTyped(
               "flex w-full items-center rounded-md p-2 hover:underline",
               {
                 "bg-muted": pathname === item.href,

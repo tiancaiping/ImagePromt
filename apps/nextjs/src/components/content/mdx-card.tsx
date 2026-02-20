@@ -14,9 +14,10 @@ export function MdxCard({
   disabled,
   ...props
 }: CardProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <div
-      className={cn(
+      className={cnTyped(
         "group relative rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg",
         disabled && "cursor-not-allowed opacity-60",
         className,

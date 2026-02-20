@@ -11,10 +11,16 @@ interface DocsSearchProps extends React.HTMLAttributes<HTMLFormElement> {
 }
 
 export function DocsSearch({ className, ...props }: DocsSearchProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const toastTyped = toast as unknown as (props: {
+    title?: string;
+    description?: string;
+    variant?: string;
+  }) => void;
   function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
 
-    return toast({
+    return toastTyped({
       title: "Not implemented",
       description: "We're still working on the search.",
     });
@@ -23,7 +29,7 @@ export function DocsSearch({ className, ...props }: DocsSearchProps) {
   return (
     <form
       onSubmit={onSubmit}
-      className={cn("relative w-full", className)}
+      className={cnTyped("relative w-full", className)}
       {...props}
     >
       <Input

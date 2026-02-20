@@ -15,7 +15,15 @@ import { useSigninModal } from "~/hooks/use-signin-modal";
 export const SignInClerkModal = ({ dict }: { dict: Record<string, string> }) => {
   const signInModal = useSigninModal();
   const [signInClicked, setSignInClicked] = useState(false);
-  const { signIn } = useSignIn();
+  const { signIn } = useSignIn() as unknown as {
+    signIn?: {
+      authenticateWithRedirect: (args: {
+        strategy: OAuthStrategy;
+        redirectUrl: string;
+        redirectUrlComplete: string;
+      }) => Promise<unknown>;
+    };
+  };
 
   if (!signIn) {
     return null
@@ -33,11 +41,10 @@ export const SignInClerkModal = ({ dict }: { dict: Record<string, string> }) => 
       .then((res) => {
         console.log(res)
       })
-      .catch((err: any) => {
-        // See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
-        console.log(err.errors)
-        console.error(err, null, 2)
+      .catch((err: unknown) => {
+        const error = err as { errors?: { longMessage?: string }[] };
+        console.log(error.errors)
+        console.error(error, null, 2)
       })
   }
 

@@ -15,15 +15,19 @@ interface DashboardNavProps {
   };
 }
 
-const iconMapObj = new Map([
-  ["clusters", Icons.Cluster],
-  ["image-to-prompt", Icons.Page],
-  ["billing", Icons.Billing],
-  ["settings", Icons.Settings],
+type IconComponent = React.ComponentType<{ className?: string }>;
+const IconsTyped = Icons as unknown as Record<string, IconComponent>;
+const iconMapObj = new Map<string, IconComponent>([
+  ["clusters", IconsTyped.Cluster],
+  ["image-to-prompt", IconsTyped.Page],
+  ["billing", IconsTyped.Billing],
+  ["settings", IconsTyped.Settings],
 ]);
 
 export function DashboardNav({ items, params: { lang } }: DashboardNavProps) {
   const path = usePathname();
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const ArrowRightIcon = IconsTyped.ArrowRight;
 
   if (!items?.length) {
     return null;
@@ -33,7 +37,7 @@ export function DashboardNav({ items, params: { lang } }: DashboardNavProps) {
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {
         // const Icon = item.icon;
-        const Icon = iconMapObj.get(item.id) ?? Icons.ArrowRight;
+        const Icon = iconMapObj.get(item.id) ?? ArrowRightIcon;
         return (
           item.href && (
             <Link
@@ -41,7 +45,7 @@ export function DashboardNav({ items, params: { lang } }: DashboardNavProps) {
               href={item.disabled ? "/" : `/${lang}` + item.href}
             >
               <span
-                className={cn(
+                className={cnTyped(
                   "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                   path === item.href ? "bg-accent" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80",

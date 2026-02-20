@@ -22,9 +22,16 @@ export function BillingFormButton({
   subscriptionPlan,
 }: BillingFormButtonProps) {
   const [isPending, startTransition] = useTransition();
+  const trpcClient = trpc as unknown as {
+    stripe: {
+      createSession: {
+        mutate: (input: { planId: string }) => Promise<{ url?: string }>;
+      };
+    };
+  };
 
   async function createSession(planId: string) {
-    const res = await trpc.stripe.createSession.mutate({ planId: planId });
+    const res = await trpcClient.stripe.createSession.mutate({ planId: planId });
     if (res?.url) window.location.href = res?.url;
   }
 

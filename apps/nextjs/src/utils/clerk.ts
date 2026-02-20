@@ -17,6 +17,7 @@ export const isPublicRoute = createRouteMatcher([
   new RegExp("/(\\w{2}/)?docs(.*)"),
   new RegExp("/(\\w{2}/)?blog(.*)"),
   new RegExp("/(\\w{2}/)?pricing(.*)"),
+  new RegExp("/(\\w{2}/)?image-to-prompt(.*)"),
   new RegExp("^/\\w{2}$"), // root with locale
 ])
 
@@ -44,6 +45,17 @@ export function isNoNeedProcess(request: NextRequest): boolean {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
+interface AuthSessionClaims {
+  user?: {
+    email?: string | null;
+  };
+}
+
+interface AuthResult {
+  userId?: string | null;
+  sessionClaims?: AuthSessionClaims;
+}
+
 export const middleware = clerkMiddleware(async (auth, req: NextRequest) => {
   if (isNoNeedProcess(req)) {
     return null;
@@ -76,14 +88,16 @@ export const middleware = clerkMiddleware(async (auth, req: NextRequest) => {
     return null;
   }
 
-  const { userId, sessionClaims } = await auth()
+  const authTyped = auth as unknown as () => Promise<AuthResult>;
+  const { userId, sessionClaims } = await authTyped()
 
   const isAuth = !!userId;
   let isAdmin = false
   if (env.ADMIN_EMAIL) {
-    const adminEmails = env.ADMIN_EMAIL.split(",");
-    if (sessionClaims?.user?.email) {
-      isAdmin = adminEmails.includes(sessionClaims?.user?.email);
+    const adminEmails = env.ADMIN_EMAIL.split(",").filter(Boolean);
+    const sessionEmail = sessionClaims?.user?.email ?? null;
+    if (sessionEmail) {
+      isAdmin = adminEmails.includes(sessionEmail);
     }
   }
 

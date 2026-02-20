@@ -8,7 +8,10 @@ export const metadata = {
 };
 
 export default function BlogPage() {
-  const posts = allPosts
+  const posts = (allPosts as unknown as {
+    published: boolean;
+    date: string;
+  }[])
     .filter((post) => post.published)
     .sort((a, b) => {
       return compareDesc(new Date(a.date), new Date(b.date));

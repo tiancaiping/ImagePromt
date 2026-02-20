@@ -54,9 +54,10 @@ const ReviewCard = ({
   username: string;
   body: string;
 }) => {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <figure
-      className={cn(
+      className={cnTyped(
         "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
         // light styles
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
@@ -79,18 +80,24 @@ const ReviewCard = ({
 };
 
 const Comments = () => {
+  const MarqueeTyped = Marquee as unknown as React.ComponentType<{
+    children: React.ReactNode;
+    reverse?: boolean;
+    pauseOnHover?: boolean;
+    className?: string;
+  }>;
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background py-4 sm:py-20 md:py-20 xl:py-20">
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <MarqueeTyped pauseOnHover className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      </MarqueeTyped>
+      <MarqueeTyped reverse pauseOnHover className="[--duration:20s]">
         {secondRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
-      </Marquee>
+      </MarqueeTyped>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
       <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
     </div>

@@ -20,7 +20,11 @@ export function Modal({
   showModal,
   setShowModal,
 }: ModalProps) {
-  const { isMobile } = useMediaQuery();
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const useMediaQueryTyped = useMediaQuery as unknown as () => {
+    isMobile: boolean;
+  };
+  const { isMobile } = useMediaQueryTyped();
 
   if (isMobile) {
     return (
@@ -28,7 +32,7 @@ export function Modal({
         <Drawer.Overlay className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm" />
         <Drawer.Portal>
           <Drawer.Content
-            className={cn(
+            className={cnTyped(
               "fixed inset-x-0 bottom-0 z-50 mt-24 overflow-hidden rounded-t-2xl border bg-background",
               className,
             )}

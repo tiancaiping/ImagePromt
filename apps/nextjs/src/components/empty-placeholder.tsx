@@ -10,9 +10,10 @@ export function EmptyPlaceholder({
   children,
   ...props
 }: EmptyPlaceholderProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <div
-      className={cn(
+      className={cnTyped(
         "flex min-h-[400px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50",
         className,
       )}
@@ -34,7 +35,11 @@ EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
   name,
   className, // ...props
 }: EmptyPlaceholderIconProps) {
-  const Icon = Icons[name];
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
+    className?: string;
+  }>>;
+  const Icon = IconsTyped[name];
 
   if (!Icon) {
     return null;
@@ -42,7 +47,7 @@ EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
 
   return (
     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-      <Icon className={cn("h-10 w-10", className)} />
+      <Icon className={cnTyped("h-10 w-10", className)} />
     </div>
   );
 };
@@ -53,9 +58,10 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   className,
   ...props
 }: EmptyPlacholderTitleProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     // eslint-disable-next-line jsx-a11y/heading-has-content
-    <h2 className={cn("mt-6 text-xl font-semibold", className)} {...props} />
+    <h2 className={cnTyped("mt-6 text-xl font-semibold", className)} {...props} />
   );
 };
 
@@ -66,9 +72,10 @@ EmptyPlaceholder.Description = function EmptyPlaceholderDescription({
   className,
   ...props
 }: EmptyPlacholderDescriptionProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <p
-      className={cn(
+      className={cnTyped(
         "mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground",
         className,
       )}

@@ -3,7 +3,6 @@
 import * as React from "react";
 import { redirect } from "next/navigation";
 import { SignIn, useUser } from "@clerk/nextjs";
-import type { UserResource } from "@clerk/types";
 
 import { cn } from "@saasfly/ui";
 
@@ -20,14 +19,25 @@ export function UserClerkAuthForm({
   lang,
   ...props
 }: UserAuthFormProps) {
-  const { user } = useUser() as { user: UserResource | null }
+  const useUserTyped = useUser as unknown as () => {
+    user: { id: string } | null;
+  };
+  const SignInTyped = SignIn as unknown as React.ComponentType<{
+    withSignUp?: boolean;
+    fallbackRedirectUrl?: string;
+  }>;
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const { user } = useUserTyped();
   if (user) {
     redirect(`/${lang}/dashboard`)
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <SignIn withSignUp={false} fallbackRedirectUrl={`/${lang}/dashboard`} />
+    <div className={cnTyped("grid gap-6", className)} {...props}>
+      <SignInTyped
+        withSignUp={false}
+        fallbackRedirectUrl={`/${lang}/dashboard`}
+      />
     </div>
   );
 }

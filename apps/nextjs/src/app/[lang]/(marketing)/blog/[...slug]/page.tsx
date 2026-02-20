@@ -23,9 +23,31 @@ interface PostPageProps {
   };
 }
 
+interface PostAuthor {
+  _id: string;
+  slug: string;
+  twitter: string;
+  avatar: string;
+  title: string;
+}
+
+interface PostItem {
+  title: string;
+  description?: string;
+  authors: string[];
+  slug: string;
+  slugAsParams: string;
+  date?: string;
+  image?: string;
+  body: {
+    code: string;
+  };
+}
+
 function getPostFromParams(params: { slug?: string | string[] }) {
+  const posts = allPosts as unknown as PostItem[];
   const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug;
-  const post = allPosts.find((post) => post.slugAsParams === slug);
+  const post = posts.find((post) => post.slugAsParams === slug);
 
   if (!post) {
     null;
@@ -77,32 +99,43 @@ export function generateMetadata({ params }: PostPageProps): Metadata {
 }
 
 export function generateStaticParams(): PostPageProps["params"][] {
-  return allPosts.map((post) => ({
+  const posts = allPosts as unknown as PostItem[];
+  return posts.map((post) => ({
     slug: post.slugAsParams.split("/"),
   }));
 }
 
 export default function PostPage({ params }: PostPageProps) {
   const post = getPostFromParams(params);
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: string;
+  }) => string;
+  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
+    className?: string;
+  }>>;
+  const ChevronLeftIcon = IconsTyped.ChevronLeft;
+  const MdxTyped = Mdx as unknown as React.ComponentType<{ code: string }>;
 
   if (!post) {
     notFound();
   }
 
+  const authorsList = allAuthors as unknown as PostAuthor[];
   const authors = post.authors.map((author) =>
-    allAuthors.find(({ slug }) => slug === `/authors/${author}`),
+    authorsList.find(({ slug }) => slug === `/authors/${author}`),
   );
 
   return (
     <article className="container relative max-w-3xl py-6 lg:py-10">
       <Link
         href="/blog"
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
+        className={cnTyped(
+          buttonVariantsTyped({ variant: "ghost" }),
           "absolute left-[-200px] top-14 hidden xl:inline-flex",
         )}
       >
-        <Icons.ChevronLeft className="mr-2 h-4 w-4" />
+        <ChevronLeftIcon className="mr-2 h-4 w-4" />
         See all posts
       </Link>
       <div>
@@ -155,11 +188,14 @@ export default function PostPage({ params }: PostPageProps) {
           priority
         />
       )}
-      <Mdx code={post.body.code} />
+      <MdxTyped code={post.body.code} />
       <hr className="mt-12" />
       <div className="flex justify-center py-6 lg:py-10">
-        <Link href="/blog" className={cn(buttonVariants({ variant: "ghost" }))}>
-          <Icons.ChevronLeft className="mr-2 h-4 w-4" />
+        <Link
+          href="/blog"
+          className={cnTyped(buttonVariantsTyped({ variant: "ghost" }))}
+        >
+          <ChevronLeftIcon className="mr-2 h-4 w-4" />
           See all posts
         </Link>
       </div>

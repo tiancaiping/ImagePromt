@@ -4,7 +4,8 @@ import * as React from "react";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver, type UseFormProps, type UseFormReturn } from "react-hook-form";
+import type { ZodTypeAny } from "zod";
 import * as z from "zod";
 
 import { cn } from "@saasfly/ui";
@@ -35,21 +36,42 @@ export function UserAuthForm({
   disabled,
   ...props
 }: UserAuthFormProps) {
+  const useFormTyped = useForm as unknown as <T>(
+    props: UseFormProps<T>,
+  ) => UseFormReturn<T>;
+  const zodResolverTyped = zodResolver as unknown as <
+    TSchema extends ZodTypeAny,
+  >(
+    schema: TSchema,
+  ) => Resolver<z.infer<TSchema>>;
+  const signInTyped = signIn as unknown as (
+    provider: string,
+    options?: { email?: string; redirect?: boolean; callbackUrl?: string },
+  ) => Promise<{ ok?: boolean } | undefined>;
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: string;
+  }) => string;
+  const toastTyped = toast as unknown as (props: {
+    title?: string;
+    description?: string;
+    variant?: string;
+  }) => void;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(userAuthSchema),
+  } = useFormTyped<FormData>({
+    resolver: zodResolverTyped(userAuthSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams() as unknown as URLSearchParams | null;
 
   async function onSubmit(data: FormData) {
     setIsLoading(true);
 
-    const signInResult = await signIn("email", {
+    const signInResult = await signInTyped("email", {
       email: data.email.toLowerCase(),
       redirect: false,
       callbackUrl: searchParams?.get("from") ?? `/${lang}/dashboard`,
@@ -60,21 +82,21 @@ export function UserAuthForm({
     setIsLoading(false);
 
     if (!signInResult?.ok) {
-      return toast({
+      return toastTyped({
         title: "Something went wrong.",
         description: "Your sign in request failed. Please try again.",
         variant: "destructive",
       });
     }
 
-    return toast({
+    return toastTyped({
       title: "Check your email",
       description: "We sent you a login link. Be sure to check your spam too.",
     });
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cnTyped("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -97,7 +119,7 @@ export function UserAuthForm({
               </p>
             )}
           </div>
-          <button className={cn(buttonVariants())} disabled={isLoading}>
+          <button className={cnTyped(buttonVariantsTyped())} disabled={isLoading}>
             {isLoading && (
               <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -119,10 +141,10 @@ export function UserAuthForm({
       </div>
       <button
         type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
+        className={cnTyped(buttonVariantsTyped({ variant: "outline" }))}
         onClick={() => {
           setIsGitHubLoading(true);
-          signIn("github").catch((error) => {
+          signInTyped("github").catch((error) => {
             console.error("GitHub signIn error:", error);
           });
         }}

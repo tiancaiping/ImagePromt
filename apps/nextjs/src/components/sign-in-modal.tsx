@@ -14,6 +14,10 @@ import { useSigninModal } from "~/hooks/use-signin-modal";
 export const SignInModal = ({ dict }: { dict: Record<string, string> }) => {
   const signInModal = useSigninModal();
   const [signInClicked, setSignInClicked] = useState(false);
+  const signInTyped = signIn as unknown as (
+    provider: string,
+    options?: { redirect?: boolean },
+  ) => Promise<unknown>;
 
   return (
     <Modal showModal={signInModal.isOpen} setShowModal={signInModal.onClose}>
@@ -38,7 +42,7 @@ export const SignInModal = ({ dict }: { dict: Record<string, string> }) => {
             disabled={signInClicked}
             onClick={() => {
               setSignInClicked(true);
-              signIn("github", { redirect: false })
+              signInTyped("github", { redirect: false })
                 .then(() =>
                   setTimeout(() => {
                     signInModal.onClose();

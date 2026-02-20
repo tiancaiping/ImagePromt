@@ -24,17 +24,25 @@ export default async function LoginPage({
   };
 }) {
   const dict = await getDictionary(lang);
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: string;
+  }) => string;
+  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
+    className?: string;
+  }>>;
+  const ChevronLeftIcon = IconsTyped.ChevronLeft;
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Link
         href={`/${lang}`}
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
+        className={cnTyped(
+          buttonVariantsTyped({ variant: "ghost" }),
           "absolute left-4 top-4 md:left-8 md:top-8",
         )}
       >
         <>
-          <Icons.ChevronLeft className="mr-2 h-4 w-4" />
+          <ChevronLeftIcon className="mr-2 h-4 w-4" />
           {dict.login.back}
         </>
       </Link>

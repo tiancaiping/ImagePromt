@@ -22,9 +22,21 @@ interface DocPageProps {
   };
 }
 
-function getDocFromParams(params: { slug: any }) {
-  const slug = params.slug?.join("/") || "";
-  const doc = allDocs.find((doc) => doc.slugAsParams === slug);
+interface DocItem {
+  title: string;
+  description?: string;
+  slug: string;
+  slugAsParams: string;
+  body: {
+    raw: string;
+    code: string;
+  };
+}
+
+function getDocFromParams(params: { slug?: string[] }) {
+  const slug = params.slug?.join("/") ?? "";
+  const docs = allDocs as unknown as DocItem[];
+  const doc = docs.find((doc) => doc.slugAsParams === slug);
   if (!doc) {
     null;
   }
@@ -75,13 +87,15 @@ export function generateMetadata({ params }: DocPageProps): Metadata {
 export function generateStaticParams(): {
   slug: string[];
 }[] {
-  return allDocs.map((doc) => ({
+  const docs = allDocs as unknown as DocItem[];
+  return docs.map((doc) => ({
     slug: doc.slugAsParams.split("/"),
   }));
 }
 
 export default async function DocPage({ params }: DocPageProps) {
   const doc = getDocFromParams(params);
+  const MdxTyped = Mdx as unknown as React.ComponentType<{ code: string }>;
 
   if (!doc) {
     notFound();
@@ -93,7 +107,7 @@ export default async function DocPage({ params }: DocPageProps) {
     <main className="relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="mx-auto w-full min-w-0">
         <DocsPageHeader heading={doc.title} text={doc.description} />
-        <Mdx code={doc.body.code} />
+        <MdxTyped code={doc.body.code} />
         <hr className="my-4 md:my-6" />
         <DocsPager doc={doc} />
       </div>

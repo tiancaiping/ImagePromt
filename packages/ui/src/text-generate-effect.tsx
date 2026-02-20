@@ -1,30 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ComponentType } from "react";
 import dynamic from "next/dynamic";
 import { motion, stagger, useAnimate } from "framer-motion";
 
 import { cn } from "./utils/cn";
 
-type AnimateScope<T extends Element> = { current: T | null };
-type AnimateFn = (
-  selector: string,
-  keyframes: Record<string, number | string>,
-  options?: { duration?: number; delay?: number },
-) => Promise<void>;
-const useAnimateTyped = useAnimate as unknown as <T extends Element>() => [
-  AnimateScope<T>,
-  AnimateFn,
-];
+interface TextGenerateEffectProps {
+  words: string;
+  className?: string;
+}
+
+const dynamicTyped = dynamic as unknown as <TProps>(
+  loader: () => Promise<ComponentType<TProps>> | ComponentType<TProps>,
+  options?: { ssr?: boolean },
+) => ComponentType<TProps>;
 
 const TextGenerateEffectImpl = ({
   words,
   className,
-}: {
-  words: string;
-  className?: string;
-}) => {
-  const [scope, animate] = useAnimateTyped<HTMLDivElement>();
+}: TextGenerateEffectProps) => {
+  const [scope, animate] = useAnimate<HTMLDivElement>();
   const wordsArray = words.split(" ");
 
   useEffect(() => {
@@ -68,7 +64,7 @@ const TextGenerateEffectImpl = ({
   );
 };
 
-export const TextGenerateEffect = dynamic(
+export const TextGenerateEffect = dynamicTyped<TextGenerateEffectProps>(
   () => Promise.resolve(TextGenerateEffectImpl),
   {
     ssr: false,

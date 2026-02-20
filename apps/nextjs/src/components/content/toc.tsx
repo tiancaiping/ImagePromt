@@ -12,6 +12,7 @@ interface TocProps {
 }
 
 export function DashboardTableOfContents({ toc }: TocProps) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   const itemIds = React.useMemo(
     () =>
       toc.items
@@ -33,7 +34,7 @@ export function DashboardTableOfContents({ toc }: TocProps) {
   return mounted ? (
     <div className="space-y-2">
       <p className="font-medium">On This Page</p>
-      <Tree tree={toc} activeItem={activeHeading} />
+      <Tree tree={toc} activeItem={activeHeading} cnTyped={cnTyped} />
     </div>
   ) : null;
 }
@@ -85,17 +86,18 @@ interface TreeProps {
   tree: TableOfContents;
   level?: number;
   activeItem?: string | null;
+  cnTyped: (...inputs: unknown[]) => string;
 }
 
-function Tree({ tree, level = 1, activeItem }: TreeProps) {
+function Tree({ tree, level = 1, activeItem, cnTyped }: TreeProps) {
   return tree?.items?.length && level < 3 ? (
-    <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
+    <ul className={cnTyped("m-0 list-none", { "pl-4": level !== 1 })}>
       {tree.items.map((item, index) => {
         return (
-          <li key={index} className={cn("mt-0 pt-2")}>
+          <li key={index} className={cnTyped("mt-0 pt-2")}>
             <a
               href={item.url}
-              className={cn(
+              className={cnTyped(
                 "inline-block no-underline",
                 item.url === `#${activeItem}`
                   ? "font-medium text-primary"
@@ -105,7 +107,12 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
               {item.title}
             </a>
             {item.items?.length ? (
-              <Tree tree={item} level={level + 1} activeItem={activeItem} />
+              <Tree
+                tree={item}
+                level={level + 1}
+                activeItem={activeItem}
+                cnTyped={cnTyped}
+              />
             ) : null}
           </li>
         );

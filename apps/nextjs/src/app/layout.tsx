@@ -77,6 +77,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -85,7 +86,7 @@ export default function RootLayout({
         {/*  <PostHogPageview />*/}
         {/*</Suspense>*/}
         <body
-          className={cn(
+          className={cnTyped(
             "min-h-screen bg-background font-sans antialiased",
             fontSans.variable,
             fontHeading.variable,

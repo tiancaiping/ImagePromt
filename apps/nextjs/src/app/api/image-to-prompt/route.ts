@@ -35,7 +35,16 @@ export async function POST(req: Request) {
     },
     body: uploadForm,
   });
-  const uploadJson = await uploadResponse.json();
+  const uploadJson = (await uploadResponse.json()) as {
+    data?: {
+      id?: string;
+      file_id?: string;
+      file_url?: string;
+    };
+    file_id?: string;
+    id?: string;
+    file_url?: string;
+  };
   if (!uploadResponse.ok) {
     return NextResponse.json(
       { error: "File upload failed", details: uploadJson },
@@ -72,7 +81,14 @@ export async function POST(req: Request) {
       parameters,
     }),
   });
-  const workflowJson = await workflowResponse.json();
+  const workflowJson = (await workflowResponse.json()) as {
+    data?: {
+      output?: unknown;
+      result?: unknown;
+      outputs?: unknown;
+    };
+    output?: unknown;
+  };
   if (!workflowResponse.ok) {
     return NextResponse.json(
       { error: "Workflow run failed", details: workflowJson },

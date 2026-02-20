@@ -1,37 +1,30 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, type ComponentType } from "react";
 import dynamic from "next/dynamic";
 import { motion, stagger, useAnimate, useInView } from "framer-motion";
 
 import { cn } from "./utils/cn";
 
-type AnimateScope<T extends Element> = { current: T | null };
-type AnimateFn = (
-  selector: string,
-  keyframes: Record<string, number | string>,
-  options?: { duration?: number; delay?: number; ease?: string },
-) => Promise<void>;
-const useAnimateTyped = useAnimate as unknown as <T extends Element>() => [
-  AnimateScope<T>,
-  AnimateFn,
-];
-const useInViewTyped = useInView as unknown as (
-  ref: AnimateScope<Element>,
-) => boolean;
-
-export const TypewriterEffectImpl = ({
-  words,
-  className,
-  cursorClassName,
-}: {
+interface TypewriterEffectProps {
   words: {
     text: string;
     className?: string;
   }[];
   className?: string;
   cursorClassName?: string;
-}) => {
+}
+
+const dynamicTyped = dynamic as unknown as <TProps>(
+  loader: () => Promise<ComponentType<TProps>> | ComponentType<TProps>,
+  options?: { ssr?: boolean },
+) => ComponentType<TProps>;
+
+export const TypewriterEffectImpl = ({
+  words,
+  className,
+  cursorClassName,
+}: TypewriterEffectProps) => {
   // split text inside of words into array of characters
   const wordsArray = words.map((word) => {
     return {
@@ -40,8 +33,8 @@ export const TypewriterEffectImpl = ({
     };
   });
 
-  const [scope, animate] = useAnimateTyped<HTMLSpanElement>();
-  const isInView = useInViewTyped(scope);
+  const [scope, animate] = useAnimate<HTMLSpanElement>();
+  const isInView = useInView(scope);
   useEffect(() => {
     if (isInView) {
       void animate(
@@ -108,7 +101,7 @@ export const TypewriterEffectImpl = ({
   );
 };
 
-export const TextGenerateEffect = dynamic(
+export const TextGenerateEffect = dynamicTyped<TypewriterEffectProps>(
   () => Promise.resolve(TypewriterEffectImpl),
   {
     ssr: false,

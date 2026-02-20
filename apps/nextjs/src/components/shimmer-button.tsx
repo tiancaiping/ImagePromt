@@ -22,6 +22,7 @@ const ShimmerButton = ({
   children,
   ...props
 }: ShimmerButtonProps) => {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <button
       style={
@@ -34,7 +35,7 @@ const ShimmerButton = ({
           "--bg": background,
         } as CSSProperties
       }
-      className={cn(
+      className={cnTyped(
         "group relative flex cursor-pointer overflow-hidden whitespace-nowrap px-6 py-4 text-white [background:var(--bg)] [border-radius:var(--radius)] dark:text-black ",
         "transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_8px_rgba(62,61,117,0.7)]",
         className,

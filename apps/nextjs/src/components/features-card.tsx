@@ -46,9 +46,10 @@ let notifications = [
 notifications = Array.from({ length: 10 }, () => notifications).flat();
 
 const Notification = ({ name, description, icon, color, time }: Item) => {
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   return (
     <figure
-      className={cn(
+      className={cnTyped(
         "relative mx-auto min-h-fit w-full max-w-[400px] transform cursor-pointer overflow-hidden rounded-2xl p-4",
         // animation styles
         "transition-all duration-200 ease-in-out hover:scale-[103%]",
@@ -83,13 +84,17 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
 };
 
 export function FeaturesCard() {
+  const AnimatedListTyped =
+    AnimatedList as unknown as React.ComponentType<{
+      children: React.ReactNode;
+    }>;
   return (
     <div className="relative flex max-h-[435px] min-h-[435px] flex-col overflow-hidden rounded-2xl border bg-background p-6 shadow-lg dark:border-[#443c3c]">
-      <AnimatedList>
+      <AnimatedListTyped>
         {notifications.map((item, idx) => (
           <Notification {...item} key={idx} />
         ))}
-      </AnimatedList>
+      </AnimatedListTyped>
     </div>
   );
 }

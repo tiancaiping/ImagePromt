@@ -4,7 +4,8 @@ import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, type Resolver, type UseFormProps, type UseFormReturn } from "react-hook-form";
+import type { ZodTypeAny } from "zod";
 import * as z from "zod";
 
 import { Button } from "@saasfly/ui/button";
@@ -67,28 +68,62 @@ const isValidLocation = (
 };
 
 export function ClusterConfig({ cluster, params: { lang } }: ClusterProps) {
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const useFormTyped = useForm as unknown as <T>(
+    props: UseFormProps<T>,
+  ) => UseFormReturn<T>;
+  const zodResolverTyped = zodResolver as unknown as <
+    TSchema extends ZodTypeAny,
+  >(
+    schema: TSchema,
+  ) => Resolver<z.infer<TSchema>>;
+  const toastTyped = toast as unknown as (props: {
+    title?: string;
+    description?: string;
+    variant?: string;
+  }) => void;
+  const trpcClient = trpc as unknown as {
+    k8s: {
+      updateCluster: {
+        mutate: (input: {
+          id: string;
+          name: string;
+          location: z.infer<typeof FormSchema>["location"];
+        }) => Promise<{ success?: boolean }>;
+      };
+    };
+  };
+  const ControllerTyped = Controller as unknown as <T>(props: {
+    control: UseFormReturn<T>["control"];
+    name: keyof T & string;
+    render: (args: {
+      field: {
+        onChange: (value: T[keyof T]) => void;
+        value: T[keyof T];
+      };
+    }) => React.ReactNode;
+  }) => JSX.Element;
+  const form = useFormTyped<z.infer<typeof FormSchema>>({
     defaultValues: {
       name: cluster.name, // default value
       location: isValidLocation(cluster.location)
         ? cluster.location
         : undefined,
     },
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolverTyped(FormSchema),
   });
   const router = useRouter();
   const [_isSaving, setIsSaving] = useState<boolean>(false);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsSaving(true);
-    const response = await trpc.k8s.updateCluster.mutate({
+    const response = await trpcClient.k8s.updateCluster.mutate({
       id: cluster.id,
       name: data.name,
       location: data.location,
     });
     setIsSaving(false);
     if (!response?.success) {
-      return toast({
+      return toastTyped({
         title: "Something went wrong.",
         description: "Your cluster config was not saved. Please try again.",
         variant: "destructive",
@@ -98,7 +133,7 @@ export function ClusterConfig({ cluster, params: { lang } }: ClusterProps) {
     router.push(`/${lang}/dashboard`);
     router.refresh();
 
-    return toast({
+    return toastTyped({
       description: "Your cluster config has been saved.",
     });
   }
@@ -142,7 +177,7 @@ export function ClusterConfig({ cluster, params: { lang } }: ClusterProps) {
                     <FormItem>
                       <FormLabel>Region</FormLabel>
                       <FormControl>
-                        <Controller
+                        <ControllerTyped
                           control={form.control}
                           name="location"
                           render={({ field }) => (

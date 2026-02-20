@@ -13,6 +13,19 @@ import * as Icons from "@saasfly/ui/icons";
 export default function LoginPage() {
   // const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
+  const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
+  const buttonVariantsTyped = buttonVariants as unknown as (props?: {
+    variant?: string;
+  }) => string;
+  const signInTyped = signIn as unknown as (
+    provider: string,
+    options?: { redirect?: boolean; callbackUrl?: string },
+  ) => Promise<unknown>;
+  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
+    className?: string;
+  }>>;
+  const SpinnerIcon = IconsTyped.Spinner;
+  const GitHubIcon = IconsTyped.GitHub;
 
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
@@ -64,10 +77,10 @@ export default function LoginPage() {
             </CardItem>
             <button
               type="button"
-              className={cn(buttonVariants({ variant: "outline" }))}
+              className={cnTyped(buttonVariantsTyped({ variant: "outline" }))}
               onClick={() => {
                 setIsGitHubLoading(true);
-                signIn("github", {
+                signInTyped("github", {
                   redirect: true,
                   callbackUrl: "http://localhost:3000/admin/dashboard",
                 }).catch((error) => {
@@ -77,9 +90,9 @@ export default function LoginPage() {
               disabled={isGitHubLoading}
             >
               {isGitHubLoading ? (
-                <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+                <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <Icons.GitHub className="mr-2 h-4 w-4" />
+                <GitHubIcon className="mr-2 h-4 w-4" />
               )}{" "}
               Github
             </button>

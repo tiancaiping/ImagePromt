@@ -51,10 +51,13 @@ type AuthMiddleware = (
   req: NextRequest,
 ) => Response | NextResponse | null | undefined;
 
+const getTokenTyped = getToken as unknown as (args: {
+  req: NextRequest;
+}) => Promise<JWT | null>;
+
 const authMiddleware = withAuth(
   async function middlewares(req: NextRequest) {
-    const tokenResult: unknown = await getToken({ req });
-    const token = tokenResult as JWT | null;
+    const token = await getTokenTyped({ req });
     const isAuth = !!token;
     const isAdmin = token?.isAdmin === true;
     const isAuthPage = /^\/[a-zA-Z]{2,}\/(login|register|login-clerk)/.test(
