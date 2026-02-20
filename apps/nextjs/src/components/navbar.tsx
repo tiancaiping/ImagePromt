@@ -10,8 +10,6 @@ import { Button } from "@saasfly/ui/button";
 
 import { MainNav } from "./main-nav";
 import { LocaleChange } from "~/components/locale-change";
-import { GitHubStar } from "~/components/github-star";
-import { useSigninModal } from "~/hooks/use-signin-modal";
 import { UserAccountNav } from "./user-account-nav";
 
 import useScroll from "~/hooks/use-scroll";
@@ -41,7 +39,6 @@ export function NavBar({
   dropdown,
 }: NavBarProps) {
   const scrolled = useScroll(50);
-  const signInModal = useSigninModal();
   const segment = useSelectedLayoutSegment();
   const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
 
@@ -81,12 +78,9 @@ export function NavBar({
 
           {rightElements}
 
-          <div className="hidden md:flex lg:flex xl:flex">
-            <GitHubStar />
-          </div>
           <LocaleChange url={"/"} />
           {!user ? (
-            <Link href={`/${lang}/login-clerk`}>
+            <Link href={`/${lang}/login`}>
               <Button variant="outline" size="sm">
                 {typeof marketing.login === "string"
                   ? marketing.login
@@ -102,16 +96,13 @@ export function NavBar({
               dict={dropdown}
             />
           ) : (
-            <Button
-              className="px-3"
-              variant="default"
-              size="sm"
-              onClick={signInModal.onOpen}
-            >
-              {typeof marketing.signup === "string"
-                ? marketing.signup
-                : "Default Signup Text"}
-            </Button>
+            <Link href={`/${lang}/login`}>
+              <Button className="px-3" variant="default" size="sm">
+                {typeof marketing.signup === "string"
+                  ? marketing.signup
+                  : "Default Signup Text"}
+              </Button>
+            </Link>
           )}
         </div>
       </div>

@@ -60,7 +60,7 @@ const authMiddleware = withAuth(
     const token = await getTokenTyped({ req });
     const isAuth = !!token;
     const isAdmin = token?.isAdmin === true;
-    const isAuthPage = /^\/[a-zA-Z]{2,}\/(login|register|login-clerk)/.test(
+    const isAuthPage = /^\/[a-zA-Z]{2,}\/(login|register)/.test(
       req.nextUrl.pathname,
     );
     const isAuthRoute = req.nextUrl.pathname.startsWith("/api/trpc/");

@@ -19,61 +19,61 @@
     "": ""
   },
   "marketing": {
-    "introducing": "Saasfly 소개",
-    "title": "다국어 지원으로, 당신의 앱을 전 세계 사용자에게, ",
-    "sub_title": "이것 하나로 끝! 사용하기 쉽고 엔터프라이즈급 Next.js 보일러플레이트. SaaS 서비스 구축을 위한 완벽한 솔루션입니다.",
+    "introducing": "ImagePrompt 소개",
+    "title": "이미지를 프롬프트로 빠르게 변환, ",
+    "sub_title": "이미지를 분석해 주제, 스타일, 조명, 카메라 정보를 추출하고 고품질 프롬프트를 생성합니다.",
     "get_started": "시작하기",
-    "view_on_github": "GitHub 에서 보기",
-    "explore_product": "제품 탐색",
-    "features": "특징",
-    "sub_features": "클라우드 네이티브: 스타트업을 위한 기술 단순화 및 비용 절감.",
-    "k8s_features": "빠르고 간단한 개발",
-    "devops_features": "간편한 애플리케이션 배포",
-    "price_features": "생산 환경을 위한 경제적 효율성.",
+    "view_on_github": "예시 보기",
+    "explore_product": "생성 시작",
+    "features": "핵심 기능",
+    "sub_features": "이해부터 출력까지, 프롬프트 생성 전 과정을 지원합니다.",
+    "k8s_features": "빠른 반복",
+    "devops_features": "더 높은 재현성",
+    "price_features": "모델 최적화 출력",
     "main_nav_features": "특징",
     "main_nav_pricing": "가격",
-    "main_nav_products": "제품",
+    "main_nav_products": "기능",
     "main_nav_documentation": "문서",
-    "main_nav_blog": "블로그",
+    "main_nav_blog": "리소스",
     "login": "로그인",
     "signup": "가입하기",
     "": "",
     "contributors": {
-      "contributors_desc": "명의 기여자들이 Saasfly를 더 강하게 만들었습니다",
+      "contributors_desc": "명의 크리에이터가 ImagePrompt를 사용 중입니다",
       "developers_first": "",
       "developers_second": " 명 이상의 개발자들의 성공을 돕습니다"
     },
     "right_side": {
-      "deploy_on_vercel_title": "Vercel을 통한 배포",
-      "deploy_on_vercel_desc": "간단하게 시작하고 빠르게 결과를 얻으세요.",
-      "ship_on_cloudflare_title": "Cloudflare에서 앱을 배포하세요",
-      "ship_on_cloudflare_desc": "저희 Cloudflare 기반 플랫폼은 귀사의 비즈니스 성장에 도움이 될 것입니다.",
-      "showcase_title": "최고의 실천, 함께 공유",
-      "showcase_desc": "다른 사람들이 무엇을 만들고 있는지 확인하고, 그들과 자유롭게 대화하세요. 그리고 당신의 멋진 앱을 전 세계에 자랑스럽게 보여주세요."
+      "deploy_on_vercel_title": "이미지 → 프롬프트",
+      "deploy_on_vercel_desc": "이미지를 업로드해 바로 프롬프트를 생성하세요.",
+      "ship_on_cloudflare_title": "프롬프트 히스토리",
+      "ship_on_cloudflare_desc": "생성된 프롬프트를 정리하고 재사용하세요.",
+      "showcase_title": "요금제",
+      "showcase_desc": "사용량에 맞는 플랜을 선택하세요."
     },
     "features_grid": {
-      "monorepo_title": "Monorepo",
-      "monorepo_desc": "코드 공유와 효율적인 협업을 위해 여러 프로젝트를 통합 관리합니다. 마이크로서비스, 멀티 플랫폼, 대규모 프로젝트를 지원합니다.",
-      "i18n_title": "다중 언어 지원",
-      "i18n_desc": "쉽게 다국어 지원을 구현하여 사용자에게 모국어와 같은 친근한 경험을 제공하고 국제 시장을 확장하며 브랜드 이미지를 향상시킵니다.",
-      "payments_title": "글로벌 결제",
-      "payments_desc": "당신의 비즈니스를 위한 안전하고 편리한 맞춤형 결제 솔루션을 제공합니다. 글로벌 지원으로 전 세계 시장으로 진출하세요.",
-      "nextauth_title": "NextAuth",
-      "nextauth_desc": "안전하고 편리한 인증으로 앱을 강화하세요. 소셜 로그인, 이메일 인증, 맞춤 인증을 지원합니다."
+      "monorepo_title": "장면 분석",
+      "monorepo_desc": "주제, 환경, 구도를 정확하게 인식합니다.",
+      "i18n_title": "스타일 추출",
+      "i18n_desc": "스타일, 색감, 조명 분위기를 추출합니다.",
+      "payments_title": "디테일 보완",
+      "payments_desc": "카메라, 소재, 질감 등 세부 정보를 보완합니다.",
+      "nextauth_title": "원클릭 최적화",
+      "nextauth_desc": "프롬프트를 자동으로 정리하고 최적화합니다."
     },
     "sponsor": {
       "title": "스폰서 여러분의 사랑을 받고 있습니다",
       "donate": "저희에게 커피 한 잔 사주세요, 당신의 브랜드는 바로 여기"
     },
     "video": {
-      "first_text": "비디오를 보고",
+      "first_text": "데모를 보고",
       "second_text1": "",
-      "second_text2": " 안에 앱을 만드세요",
-      "time_text": "1 시간"
+      "second_text2": " 안에 프롬프트 생성",
+      "time_text": "30 초"
     },
     "people_comment": {
       "title": "사람들의 반응을 살펴보세요",
-      "desc": "저희 말만 믿지 마세요. 실제 사용자들이 Saasfly에 대해 어떻게 말하는지 확인해 보세요."
+      "desc": "ImagePrompt에 대한 실제 사용자 후기를 확인해 보세요."
     }
   },
   "login": {
@@ -85,11 +85,11 @@
     "signin_others": "또는 다음으로 계속",
     "signup": "가입하기",
     "privacy": "이메일과 프로필 사진만 저장됩니다.",
-    "signup_github": "Github으로 가입하기",
+    "signup_github": "이메일로 가입하기",
     "": ""
   },
   "common": {
-    "copyright": "저작권 © ${currentYear} Nextify 주식회사. 모든 권리 보유.",
+    "copyright": "저작권 © ${currentYear} ImagePrompt. 모든 권리 보유.",
     "dashboard": {
       "main_nav_documentation": "문서",
       "main_nav_support": "지원",

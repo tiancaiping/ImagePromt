@@ -65,7 +65,6 @@ export function UserAuthForm({
     resolver: zodResolverTyped(userAuthSchema),
   });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams() as unknown as URLSearchParams | null;
 
   async function onSubmit(data: FormData) {
@@ -110,7 +109,7 @@ export function UserAuthForm({
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading || isGitHubLoading || disabled}
+              disabled={isLoading || disabled}
               {...register("email")}
             />
             {errors?.email && (
@@ -128,35 +127,6 @@ export function UserAuthForm({
           </button>
         </div>
       </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            {dict.signin_others}
-            {/* Or continue with */}
-          </span>
-        </div>
-      </div>
-      <button
-        type="button"
-        className={cnTyped(buttonVariantsTyped({ variant: "outline" }))}
-        onClick={() => {
-          setIsGitHubLoading(true);
-          signInTyped("github").catch((error) => {
-            console.error("GitHub signIn error:", error);
-          });
-        }}
-        disabled={isLoading || isGitHubLoading}
-      >
-        {isGitHubLoading ? (
-          <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.GitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </button>
     </div>
   );
 }

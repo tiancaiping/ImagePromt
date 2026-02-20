@@ -63,7 +63,7 @@ export function UserAccountNav({
           className="cursor-pointer"
           onSelect={(event) => {
             event.preventDefault();
-            signOut({ redirectUrl: `/${lang}/login-clerk` })
+            signOut({ redirectUrl: `/${lang}/login` })
               .catch((error) => {
                 console.error("Error during sign out:", error);
               })

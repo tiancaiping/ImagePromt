@@ -157,6 +157,46 @@ export async function POST(req: Request) {
     }
     return null;
   };
+  const collectStrings = (
+    value: unknown,
+    depth = 0,
+    acc: Set<string> = new Set(),
+  ): Set<string> => {
+    if (depth > 6) return acc;
+    if (typeof value === "string") {
+      acc.add(value);
+      return acc;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        collectStrings(item, depth + 1, acc);
+      }
+      return acc;
+    }
+    if (value && typeof value === "object") {
+      const record = value as Record<string, unknown>;
+      for (const key of Object.keys(record)) {
+        collectStrings(record[key], depth + 1, acc);
+      }
+    }
+    return acc;
+  };
+  const isLikelyId = (value: string) => {
+    if (value.length < 12) return false;
+    if (/^[0-9a-f]{16,}$/i.test(value)) return true;
+    if (/^[0-9a-f-]{20,}$/i.test(value) && !value.includes(" ")) return true;
+    return false;
+  };
+  const scoreString = (value: string) => {
+    let score = 0;
+    if (value.includes(" ")) score += 3;
+    if (value.length >= 30) score += 2;
+    if (/[a-zA-Z]/.test(value)) score += 1;
+    if (/[\u4e00-\u9fa5]/.test(value)) score += 2;
+    if (/[,.!?，。！？]/.test(value)) score += 1;
+    if (isLikelyId(value)) score -= 10;
+    return score;
+  };
   const parsedOutput = parseJsonIfString(rawOutput);
   const fallbackParsed = parseJsonIfString(workflowJson);
   const stringOutput = typeof rawOutput === "string" ? rawOutput : null;
@@ -173,14 +213,24 @@ export async function POST(req: Request) {
     fallbackParsed && typeof fallbackParsed === "object"
       ? extractFromObject(fallbackParsed as Record<string, unknown>)
       : null;
-  const output =
-    stringOutput ??
-    parsedObjectOutput ??
-    arrayOutput ??
-    objectOutput ??
-    fallbackOutput ??
-    findFirstString(rawOutput) ??
-    findFirstString(workflowJson);
+  const candidates = [
+    stringOutput,
+    parsedObjectOutput,
+    arrayOutput,
+    objectOutput,
+    fallbackOutput,
+    findFirstString(rawOutput),
+    findFirstString(workflowJson),
+    ...Array.from(collectStrings(rawOutput)),
+    ...Array.from(collectStrings(workflowJson)),
+  ].filter(
+    (value): value is string => typeof value === "string" && value.trim() !== "",
+  );
+  const best = candidates.reduce((acc, current) => {
+    if (!acc) return current;
+    return scoreString(current) > scoreString(acc) ? current : acc;
+  }, "");
+  const output = best || null;
   return NextResponse.json({
     output,
     fileId,

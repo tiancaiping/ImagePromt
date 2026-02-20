@@ -19,61 +19,61 @@
     "": ""
   },
   "marketing": {
-    "introducing": "介绍 Saasfly",
-    "title": "更轻松地将您的应用推向全球，尽在 ",
-    "sub_title": "简单易上手，具备企业级品质的 Next.js 模板。打造 SaaS 服务的终极一体化解决方案，助力业务增长。",
+    "introducing": "介绍 ImagePrompt",
+    "title": "让图片秒变专业提示词，尽在 ",
+    "sub_title": "上传图片，自动提取主体、风格、光影与镜头信息，一键生成高质量提示词。",
     "get_started": "快速开始",
-    "view_on_github": "在 GitHub 上查看",
-    "explore_product": "探索产品",
-    "features": "特色",
-    "sub_features": "云原生：为初创公司简化技术、降低成本而生。",
-    "k8s_features": "开发快速、简单",
-    "devops_features": "应用轻松部署",
-    "price_features": "经济高效为生产环境打造。",
+    "view_on_github": "查看示例",
+    "explore_product": "开始生成",
+    "features": "核心功能",
+    "sub_features": "从理解到输出，覆盖完整提示词生成流程。",
+    "k8s_features": "快速生成与迭代",
+    "devops_features": "更高还原度",
+    "price_features": "适配主流模型",
     "main_nav_features": "特色",
     "main_nav_pricing": "价格",
-    "main_nav_products": "产品",
-    "main_nav_blog": "博客",
+    "main_nav_products": "功能",
+    "main_nav_blog": "资源",
     "main_nav_documentation": "文档",
     "login": "登录",
     "signup": "注册",
     "": "",
     "contributors": {
-      "contributors_desc": "位贡献者使Saasfly更强大了",
+      "contributors_desc": "位创作者正在使用 ImagePrompt",
       "developers_first": "帮助了超过 ",
       "developers_second": " 位开发者"
     },
     "right_side": {
-      "deploy_on_vercel_title": "部署到 Vercel",
-      "deploy_on_vercel_desc": "轻松上手，快速看到成果。",
-      "ship_on_cloudflare_title": "使用 Cloudflare 发布应用",
-      "ship_on_cloudflare_desc": "使用我们基于 Cloudflare 构建的平台，助力您的业务增长。",
-      "showcase_title": "最佳实践，与您分享",
-      "showcase_desc": "发现精彩应用，与开发者交流心得，向全球展示你的才华。"
+      "deploy_on_vercel_title": "图片生成提示词",
+      "deploy_on_vercel_desc": "上传图片并生成可直接使用的提示词。",
+      "ship_on_cloudflare_title": "提示词历史",
+      "ship_on_cloudflare_desc": "管理并复用已生成的提示词。",
+      "showcase_title": "价格与套餐",
+      "showcase_desc": "选择适合你的计划与配额。"
     },
     "features_grid": {
-      "monorepo_title": "Monorepo",
-      "monorepo_desc": "将多个项目统一管理，让代码共享更轻松，协作更高效。支持微服务架构、多平台应用以及大型项目。",
-      "i18n_title": "多语言支持",
-      "i18n_desc": "轻松实现多语言支持，为用户提供母语般的亲切体验，助您拓展国际市场，提升品牌形象。",
-      "payments_title": "全球化支付",
-      "payments_desc": "为您提供安全、便捷、高效的支付解决方案。全球化支持，多种支付方式，灵活定制，让您的业务轻松拓展，畅通无阻。",
-      "nextauth_title": "NextAuth",
-      "nextauth_desc": "让你的应用拥有安全可靠的身份验证，为用户提供丝滑流畅的登录体验。支持社交登录、邮箱验证以及自定义认证。"
+      "monorepo_title": "场景解析",
+      "monorepo_desc": "识别主体、环境、构图与关键元素。",
+      "i18n_title": "风格提取",
+      "i18n_desc": "捕捉画风、色调与光影氛围。",
+      "payments_title": "细节补全",
+      "payments_desc": "补齐镜头、材质、质感与氛围细节。",
+      "nextauth_title": "一键优化",
+      "nextauth_desc": "自动清洗并结构化输出提示词。"
     },
     "sponsor": {
       "title": "我们深受赞助商的喜爱",
       "donate": "给我们买杯咖啡，您的品牌会出现在这里"
     },
     "video": {
-      "first_text": "观看视频，然后",
+      "first_text": "看一次演示",
       "second_text1": "在 ",
-      "second_text2": "构建你的应用程序",
-      "time_text": "1 小时内"
+      "second_text2": "内生成提示词",
+      "time_text": "30 秒"
     },
     "people_comment": {
       "title": "听听大家怎么说",
-      "desc": "不要只听我们说。以下是真实用户对 Saasfly 的评价。"
+      "desc": "以下是真实用户对 ImagePrompt 的评价。"
     }
   },
   "login": {
@@ -85,11 +85,11 @@
     "signin_others": "或者继续使用",
     "signup": "注册",
     "privacy": "只有您的电子邮件和头像会被存储。",
-    "signup_github": "使用 Github 注册",
+    "signup_github": "使用邮箱注册",
     "": ""
   },
   "common": {
-    "copyright": "版权所有 © ${currentYear} Nextify公司。保留所有权利。",
+    "copyright": "版权所有 © ${currentYear} ImagePrompt。保留所有权利。",
     "dashboard": {
       "main_nav_documentation": "文档",
       "main_nav_support": "支持",

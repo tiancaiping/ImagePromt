@@ -15,31 +15,31 @@ export function InfiniteMovingCardss() {
 const reviews = [
   {
     quote:
-      "这款 SaaS 服务简直是办公利器！它的功能非常强大，界面也十分友好。自从使用它以后，我的工作效率提高了很多。我真的很庆幸选择了这个服务。",
+      "ImagePrompt 让图片转提示词变得很顺畅，细节覆盖到位，省了我很多时间。",
     name: "王伟",
     title: "高级用户",
   },
   {
     quote:
-      "I've tried many SaaS services before, but this one really stands out. It offers a wide range of features and integrates seamlessly with other tools I use. The customer support is also top-notch. Highly recommended!",
+      "ImagePrompt saves me hours on prompt crafting. The outputs are structured and easy to tweak.",
     name: "John Smith",
     title: "Power User",
   },
   {
     quote:
-      "このSaaSサービスには本当に感謝しています。おかげで業務の効率が大幅に向上しました。機能が豊富で、使いやすいインターフェースも魅力的です。これからもずっと使い続けたいと思います。",
+      "ImagePrompt なら構図や質感まで拾ってくれるので、再現性が上がりました。",
     name: "山田太郎",
     title: "ゴールドユーザー",
   },
   {
     quote:
-      "저는 이 SaaS 서비스에 매우 만족하고 있습니다. 기능이 다양하고 강력할 뿐만 아니라, 고객 지원도 훌륭합니다. 이 서비스 덕분에 업무 성과가 크게 향상되었어요. 강력히 추천합니다!",
+      "이미지 분석이 정확하고, 프롬프트 결과가 일관돼서 작업 속도가 빨라졌어요.",
     name: "김민수",
     title: "VIP 사용자",
   },
   {
     quote:
-      "This SaaS service has revolutionized the way our team works. It's feature-rich, user-friendly, and the pricing is quite competitive. We've seen a significant boost in our productivity since we started using it.",
+      "Our team uses ImagePrompt daily. The prompts are clean, actionable, and model-ready.",
     name: "Emily Johnson",
     title: "Verified Buyer",
   },

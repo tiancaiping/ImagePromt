@@ -13,30 +13,30 @@ interface Item {
 
 let notifications = [
   {
-    name: "Payment received",
-    description: "Stripe subscription",
+    name: "Prompt generated",
+    description: "Midjourney ready",
     time: "15m ago",
 
     icon: "💸",
     color: "#00C9A7",
   },
   {
-    name: "User signed up",
-    description: "Auth, simple and clean",
+    name: "Image analyzed",
+    description: "Scene & style detected",
     time: "10m ago",
     icon: "👤",
     color: "#FFB800",
   },
   {
-    name: "New Emails",
-    description: "Create beautiful emails",
+    name: "Prompt refined",
+    description: "Added lighting & camera",
     time: "5m ago",
     icon: "💬",
     color: "#FF3D71",
   },
   {
-    name: "Easy Deploy",
-    description: "Deploy your app with ease",
+    name: "Copy ready",
+    description: "One-click prompt copy",
     time: "2m ago",
     icon: "🗞️",
     color: "#1E86FF",

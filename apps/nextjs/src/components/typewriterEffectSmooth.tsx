@@ -26,7 +26,7 @@ export function TypewriterEffectSmooths() {
       text: "with",
     },
     {
-      text: "Saasfly.",
+      text: "ImagePrompt.",
       className: "text-blue-500",
     },
   ];

@@ -3,32 +3,19 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 
 import { cn } from "@saasfly/ui";
 import { CardBody, CardContainer, CardItem } from "@saasfly/ui/3d-card";
 import { buttonVariants } from "@saasfly/ui/button";
-import * as Icons from "@saasfly/ui/icons";
 
 export default function LoginPage() {
-  // const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const cnTyped = cn as unknown as (...inputs: unknown[]) => string;
   const buttonVariantsTyped = buttonVariants as unknown as (props?: {
     variant?: string;
   }) => string;
-  const signInTyped = signIn as unknown as (
-    provider: string,
-    options?: { redirect?: boolean; callbackUrl?: string },
-  ) => Promise<unknown>;
-  const IconsTyped = Icons as unknown as Record<string, React.ComponentType<{
-    className?: string;
-  }>>;
-  const SpinnerIcon = IconsTyped.Spinner;
-  const GitHubIcon = IconsTyped.GitHub;
-
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
+      {/*<Link*/}
       {/*<Link*/}
       {/*  href={`/${lang}`}*/}
       {/*  className={cn(*/}
@@ -47,14 +34,14 @@ export default function LoginPage() {
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            Start a beautiful new life
+            ImagePrompt Admin
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
             className="mt-2 max-w-sm text-sm text-neutral-500 dark:text-neutral-300"
           >
-            Admin Dashboard
+            Sign in with your email account
           </CardItem>
           <CardItem translateZ="100" className="mt-4 w-full">
             <Image
@@ -69,33 +56,17 @@ export default function LoginPage() {
             <CardItem
               translateZ={20}
               as={Link}
-              href="https://github.com/saasfly/saasfly"
-              target="__blank"
+              href="/"
               className="rounded-xl px-4 py-2 text-xs font-normal dark:text-white"
             >
-              You know this is not easy for us
+              Back to ImagePrompt
             </CardItem>
-            <button
-              type="button"
+            <Link
+              href="/login"
               className={cnTyped(buttonVariantsTyped({ variant: "outline" }))}
-              onClick={() => {
-                setIsGitHubLoading(true);
-                signInTyped("github", {
-                  redirect: true,
-                  callbackUrl: "http://localhost:3000/admin/dashboard",
-                }).catch((error) => {
-                  console.error("GitHub signIn error:", error);
-                });
-              }}
-              disabled={isGitHubLoading}
             >
-              {isGitHubLoading ? (
-                <SpinnerIcon className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <GitHubIcon className="mr-2 h-4 w-4" />
-              )}{" "}
-              Github
-            </button>
+              Email Login
+            </Link>
           </div>
         </CardBody>
       </CardContainer>

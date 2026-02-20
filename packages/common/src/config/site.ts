@@ -1,9 +1,9 @@
 export const siteConfig = {
-  name: "Saasfly",
-  description: "We provide an easier way to build saas service in production",
-  url: "https://github.com/saaslfy/saasfly",
+  name: "ImagePrompt",
+  description: "Turn images into production-ready prompts in seconds.",
+  url: "https://imageprompt.ai",
   ogImage: "",
   links: {
-    github: "https://github.com/saaslfy",
+    github: "",
   },
 };
