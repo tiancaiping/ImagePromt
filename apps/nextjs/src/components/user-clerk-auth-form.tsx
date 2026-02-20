@@ -3,6 +3,7 @@
 import * as React from "react";
 import { redirect } from "next/navigation";
 import { SignIn, useUser } from "@clerk/nextjs";
+import type { UserResource } from "@clerk/types";
 
 import { cn } from "@saasfly/ui";
 
@@ -19,7 +20,7 @@ export function UserClerkAuthForm({
   lang,
   ...props
 }: UserAuthFormProps) {
-  const { user } = useUser()
+  const { user } = useUser() as { user: UserResource | null }
   if (user) {
     redirect(`/${lang}/dashboard`)
   }

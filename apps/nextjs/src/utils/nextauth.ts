@@ -1,8 +1,8 @@
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
-import { getToken } from "next-auth/jwt";
+import { getToken, type JWT } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 import { i18n } from "~/config/i18n-config";
 
@@ -47,11 +47,16 @@ function isNoNeedProcess(request: NextRequest): boolean {
   return noNeedProcessRoute.some((route) => new RegExp(route).test(pathname));
 }
 
+type AuthMiddleware = (
+  req: NextRequest,
+) => Response | NextResponse | null | undefined;
+
 const authMiddleware = withAuth(
-  async function middlewares(req) {
-    const token = await getToken({ req });
+  async function middlewares(req: NextRequest) {
+    const tokenResult: unknown = await getToken({ req });
+    const token = tokenResult as JWT | null;
     const isAuth = !!token;
-    const isAdmin = token?.isAdmin;
+    const isAdmin = token?.isAdmin === true;
     const isAuthPage = /^\/[a-zA-Z]{2,}\/(login|register|login-clerk)/.test(
       req.nextUrl.pathname,
     );
@@ -70,7 +75,7 @@ const authMiddleware = withAuth(
       if (isAuth) {
         return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url));
       }
-      return null;
+      return NextResponse.next();
     }
     if (!isAuth) {
       let from = req.nextUrl.pathname;
@@ -89,7 +94,7 @@ const authMiddleware = withAuth(
       },
     },
   },
-);
+) as unknown as AuthMiddleware;
 
 /**
  * 1、 if the request is public page and don't have locale, redirect to locale page
@@ -98,9 +103,9 @@ const authMiddleware = withAuth(
  * @param request
  * @returns
  */
-export default async function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   if (isNoNeedProcess(request)) {
-    return null;
+    return NextResponse.next();
   }
   const isWebhooksRoute = request.nextUrl.pathname.startsWith("/api/webhooks/");
   if (isWebhooksRoute) {
@@ -124,9 +129,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (isPublicPage(request)) {
-    return null;
+    return NextResponse.next();
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  return authMiddleware(request, null);
+  return authMiddleware(request);
 }

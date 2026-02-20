@@ -6,6 +6,17 @@ import { motion, stagger, useAnimate } from "framer-motion";
 
 import { cn } from "./utils/cn";
 
+type AnimateScope<T extends Element> = { current: T | null };
+type AnimateFn = (
+  selector: string,
+  keyframes: Record<string, number | string>,
+  options?: { duration?: number; delay?: number },
+) => Promise<void>;
+const useAnimateTyped = useAnimate as unknown as <T extends Element>() => [
+  AnimateScope<T>,
+  AnimateFn,
+];
+
 const TextGenerateEffectImpl = ({
   words,
   className,
@@ -13,7 +24,7 @@ const TextGenerateEffectImpl = ({
   words: string;
   className?: string;
 }) => {
-  const [scope, animate] = useAnimate();
+  const [scope, animate] = useAnimateTyped<HTMLDivElement>();
   const wordsArray = words.split(" ");
 
   useEffect(() => {
@@ -27,7 +38,7 @@ const TextGenerateEffectImpl = ({
         delay: stagger(0.1),
       },
     );
-  }, [scope.current, words]);
+  }, [animate, words]);
 
   const renderWords = () => {
     return (

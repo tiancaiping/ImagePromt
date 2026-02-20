@@ -272,6 +272,9 @@ importers:
       '@saasfly/db':
         specifier: workspace:*
         version: link:../db
+      '@saasfly/stripe':
+        specifier: workspace:*
+        version: link:../stripe
       '@t3-oss/env-nextjs':
         specifier: 0.8.0
         version: 0.8.0(typescript@5.4.5)(zod@3.22.4)
@@ -284,6 +287,9 @@ importers:
       dinero.js:
         specifier: 2.0.0-alpha.14
         version: 2.0.0-alpha.14
+      next:
+        specifier: 14.2.5
+        version: 14.2.5(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -318,12 +324,21 @@ importers:
       '@auth/kysely-adapter':
         specifier: 0.4.2
         version: 0.4.2(kysely@0.27.3)
+      '@saasfly/common':
+        specifier: workspace:*
+        version: link:../common
       '@saasfly/db':
         specifier: workspace:*
         version: link:../db
       '@t3-oss/env-nextjs':
         specifier: 0.8.0
         version: 0.8.0(typescript@5.4.5)(zod@3.22.4)
+      '@vercel/postgres-kysely':
+        specifier: 0.8.0
+        version: 0.8.0(kysely@0.27.3)
+      kysely:
+        specifier: 0.27.3
+        version: 0.27.3
       next:
         specifier: 14.2.5
         version: 14.2.5(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -364,9 +379,15 @@ importers:
       '@saasfly/ui':
         specifier: workspace:*
         version: link:../ui
+      '@t3-oss/env-nextjs':
+        specifier: 0.8.0
+        version: 0.8.0(typescript@5.4.5)(zod@3.22.4)
       resend:
         specifier: 2.1.0
         version: 2.1.0
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@saasfly/eslint-config':
         specifier: workspace:*
@@ -438,6 +459,9 @@ importers:
       stripe:
         specifier: 14.15.0
         version: 14.15.0
+      zod:
+        specifier: 3.22.4
+        version: 3.22.4
     devDependencies:
       '@saasfly/eslint-config':
         specifier: workspace:*
@@ -1468,28 +1492,24 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@next/swc-linux-arm64-musl@14.2.5':
     resolution: {integrity: sha512-NpDB9NUR2t0hXzJJwQSGu1IAOYybsfeB+LxpGsXrRIb7QOrYmidJz3shzY8cM6+rO4Aojuef0N/PEaX18pi9OA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@next/swc-linux-x64-gnu@14.2.5':
     resolution: {integrity: sha512-8XFikMSxWleYNryWIjiCX+gU201YS+erTUidKdyOVYi5qUQo/gRxv/3N1oZFCgqpesN6FPeqGM72Zve+nReVXQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@next/swc-linux-x64-musl@14.2.5':
     resolution: {integrity: sha512-6QLwi7RaYiQDcRDSU/os40r5o06b5ue7Jsk5JgdRBGGp8l37RZEh9JsLSM8QF0YDsgcosSeHjglgqi25+m04IQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@next/swc-win32-arm64-msvc@14.2.5':
     resolution: {integrity: sha512-1GpG2VhbspO+aYoMOQPQiqc/tG3LzmsdBH0LhnDS3JrtDx2QmzXe0B6mSZZiN3Bq7IOMXxv1nlsjzoS1+9mzZw==}

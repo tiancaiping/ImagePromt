@@ -6,6 +6,20 @@ import { motion, stagger, useAnimate, useInView } from "framer-motion";
 
 import { cn } from "./utils/cn";
 
+type AnimateScope<T extends Element> = { current: T | null };
+type AnimateFn = (
+  selector: string,
+  keyframes: Record<string, number | string>,
+  options?: { duration?: number; delay?: number; ease?: string },
+) => Promise<void>;
+const useAnimateTyped = useAnimate as unknown as <T extends Element>() => [
+  AnimateScope<T>,
+  AnimateFn,
+];
+const useInViewTyped = useInView as unknown as (
+  ref: AnimateScope<Element>,
+) => boolean;
+
 export const TypewriterEffectImpl = ({
   words,
   className,
@@ -26,8 +40,8 @@ export const TypewriterEffectImpl = ({
     };
   });
 
-  const [scope, animate] = useAnimate();
-  const isInView = useInView(scope);
+  const [scope, animate] = useAnimateTyped<HTMLSpanElement>();
+  const isInView = useInViewTyped(scope);
   useEffect(() => {
     if (isInView) {
       void animate(
@@ -44,7 +58,7 @@ export const TypewriterEffectImpl = ({
         },
       );
     }
-  }, [isInView]);
+  }, [animate, isInView]);
 
   const renderWords = () => {
     return (

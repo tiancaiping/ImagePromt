@@ -23,13 +23,15 @@ import { Label } from "@saasfly/ui/label";
 import { toast } from "@saasfly/ui/use-toast";
 
 import { userNameSchema } from "~/lib/validations/user";
-import { trpc } from "~/trpc/client";
+import { trpc, type RouterInputs, type RouterOutputs } from "~/trpc/client";
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, "id" | "name">;
 }
 
 type FormData = z.infer<typeof userNameSchema>;
+type UpdateUserNameInput = RouterInputs["customer"]["updateUserName"];
+type UpdateUserNameOutput = RouterOutputs["customer"]["updateUserName"];
 
 export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   const router = useRouter();
@@ -48,7 +50,10 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   async function onSubmit(data: FormData) {
     setIsSaving(true);
 
-    const response = await trpc.customer.updateUserName.mutate({
+    const updateUserName = trpc.customer.updateUserName.mutate as (
+      input: UpdateUserNameInput,
+    ) => Promise<UpdateUserNameOutput>;
+    const response = await updateUserName({
       name: data.name,
       userId: user.id,
     });
