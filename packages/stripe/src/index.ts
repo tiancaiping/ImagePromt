@@ -8,7 +8,10 @@ export * from "./webhooks";
 
 export type { Stripe };
 
-export const stripe = new Stripe(env.STRIPE_API_KEY, {
+const stripeApiKey =
+  env.STRIPE_API_KEY || (process.env.SKIP_ENV_VALIDATION ? "sk_test_skip_env_validation" : "");
+
+export const stripe = new Stripe(stripeApiKey, {
   typescript: true,
 });
 
