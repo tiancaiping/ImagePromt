@@ -30,6 +30,11 @@ export const getDashboardConfig = async ({
         href: "/dashboard/",
       },
       {
+        id: "image-to-prompt",
+        title: dict.common.dashboard.sidebar_nav_image_to_prompt,
+        href: "/dashboard/image-to-prompt",
+      },
+      {
         id: "billing",
         title: dict.common.dashboard.sidebar_nav_billing,
         href: "/dashboard/billing",

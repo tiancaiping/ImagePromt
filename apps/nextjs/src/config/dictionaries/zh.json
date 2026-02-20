@@ -94,6 +94,7 @@
       "main_nav_documentation": "文档",
       "main_nav_support": "支持",
       "sidebar_nav_clusters": "集群",
+      "sidebar_nav_image_to_prompt": "图片生成提示词",
       "sidebar_nav_billing": "账单",
       "sidebar_nav_settings": "设置",
       "title_text": "创建和管理集群。",

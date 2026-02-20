@@ -94,6 +94,7 @@
       "main_nav_documentation": "Documentation",
       "main_nav_support": "Support",
       "sidebar_nav_clusters": "Clusters",
+      "sidebar_nav_image_to_prompt": "Image to Prompt",
       "sidebar_nav_billing": "Billing",
       "sidebar_nav_settings": "Settings",
       "title_text": "Create and manage clusters."

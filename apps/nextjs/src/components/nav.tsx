@@ -17,6 +17,7 @@ interface DashboardNavProps {
 
 const iconMapObj = new Map([
   ["clusters", Icons.Cluster],
+  ["image-to-prompt", Icons.Page],
   ["billing", Icons.Billing],
   ["settings", Icons.Settings],
 ]);

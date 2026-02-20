@@ -94,6 +94,7 @@
       "main_nav_documentation": "문서",
       "main_nav_support": "지원",
       "sidebar_nav_clusters": "클러스터",
+      "sidebar_nav_image_to_prompt": "이미지 프롬프트 생성",
       "sidebar_nav_billing": "청구",
       "sidebar_nav_settings": "설정",
       "title_text": "클러스터 생성 및 관리。",
