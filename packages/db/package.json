@@ -12,9 +12,9 @@
     "lint": "eslint .",
     "format": "prisma format && prettier --check '**/*.{ts,json}' ",
     "db:generate": "prisma generate",
-    "db:push": "bun with-env prisma db push --skip-generate",
+    "db:push": "pnpm run with-env -- prisma db push --skip-generate",
     "typecheck": "tsc --noEmit",
-    "with-env": "dotenv -e ../../.env.local --"
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "kysely": "0.27.3",

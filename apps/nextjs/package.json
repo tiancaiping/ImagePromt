@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "contentlayer2 build && bun with-env next build",
+    "build": "contentlayer2 build && pnpm run with-env next build",
+    "build:prod": "contentlayer2 build && next build",
     "clean": "git clean -xdf .next .turbo node_modules",
-    "dev": "bun with-env next dev",
-    "lint": " bun with-env next lint --quiet",
+    "dev": "pnpm run with-env next dev",
+    "lint": " pnpm run with-env next lint --quiet",
     "format": "prettier --write '**/*.{js,cjs,mjs,ts,tsx,md,json}'  --ignore-path .prettierignore",
-    "start": "bun with-env next start",
-    "with-env": "dotenv -e ../../.env.local --"
+    "start": "pnpm run with-env next start",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@dinero.js/currencies": "2.0.0-alpha.14",
