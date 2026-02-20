@@ -6,6 +6,8 @@ import { SiteFooter } from "~/components/site-footer";
 import { i18n, type Locale } from "~/config/i18n-config";
 import { getDictionary } from "~/lib/get-dictionary";
 
+export const dynamic = "force-dynamic";
+
 interface DashboardLayoutProps {
   children?: React.ReactNode;
   params: {
