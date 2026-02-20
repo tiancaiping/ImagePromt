@@ -96,12 +96,66 @@ export async function POST(req: Request) {
     );
   }
 
-  const output =
+  const rawOutput =
     workflowJson?.data?.output ??
     workflowJson?.output ??
     workflowJson?.data?.result ??
     workflowJson?.data?.outputs ??
     null;
+  const parseJsonIfString = (value: unknown): unknown => {
+    if (typeof value !== "string") {
+      return null;
+    }
+    try {
+      const parsed: unknown = JSON.parse(value);
+      return parsed;
+    } catch {
+      return null;
+    }
+  };
+  const extractFromObject = (value: Record<string, unknown>): string | null => {
+    if (typeof value.output === "string") return value.output;
+    if (typeof value.text === "string") return value.text;
+    if (typeof value.value === "string") return value.value;
+    const nested = value.output ?? value.data ?? value.result ?? value.outputs;
+    if (typeof nested === "string") return nested;
+    if (nested && typeof nested === "object") {
+      return extractFromObject(nested as Record<string, unknown>);
+    }
+    return null;
+  };
+  const extractFromArray = (value: unknown[]): string | null => {
+    for (const item of value) {
+      if (typeof item === "string") return item;
+      if (item && typeof item === "object") {
+        const extracted = extractFromObject(item as Record<string, unknown>);
+        if (typeof extracted === "string") return extracted;
+      }
+    }
+    return null;
+  };
+  const parsedOutput = parseJsonIfString(rawOutput);
+  const fallbackParsed = parseJsonIfString(workflowJson);
+  const stringOutput = typeof rawOutput === "string" ? rawOutput : null;
+  const parsedObjectOutput =
+    parsedOutput && typeof parsedOutput === "object"
+      ? extractFromObject(parsedOutput as Record<string, unknown>)
+      : null;
+  const arrayOutput = Array.isArray(rawOutput) ? extractFromArray(rawOutput) : null;
+  const objectOutput =
+    rawOutput && typeof rawOutput === "object"
+      ? extractFromObject(rawOutput as Record<string, unknown>)
+      : null;
+  const fallbackOutput =
+    fallbackParsed && typeof fallbackParsed === "object"
+      ? extractFromObject(fallbackParsed as Record<string, unknown>)
+      : null;
+  const output =
+    stringOutput ??
+    parsedObjectOutput ??
+    arrayOutput ??
+    objectOutput ??
+    fallbackOutput;
   return NextResponse.json({
     output,
     fileId,
